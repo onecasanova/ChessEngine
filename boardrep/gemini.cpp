@@ -125,7 +125,7 @@ class Board {
             for (int r = 7; r >= 0; r--) { //top down
                 cout << r + 1 << "|"; //row labels
                 for (int c = 0; c < 8; c++) {
-                    cout << getPieceViz(board[r][c]) << " ";
+                    cout << getPieceViz(board[r][c]) << " "; //this prints the associated piece letter based on its integer stored in the array
                 }
                 cout << "|" << endl;
             }
@@ -175,22 +175,47 @@ class Board {
             bool c1 = false;
             bool c2 = false;
             bool c3 = false;
+            bool c4 = false;
+            bool c5 = false;
 
             //check if move is 2 characters long
             if (move.start.length() ==2 & move.end.length() == 2) {
                 c1 = true;
+                
             }
 
-            //check for character ranges
-            if (std::toupper(move.start[0]) >= 65 & std::toupper(move.start[0]) <=90) {
+            //character is within bounds
+            if ((std::toupper(move.start[0] - 'A')) >= 0 & (std::toupper(move.start[0] - 'A') < 8)) {
                 c2 = true;
             }
 
-            if (std::toupper(move.end[0]) >= 65 & std::toupper(move.end[0]) <=90) {
+            if ((std::toupper(move.end[0] - 'A')) >= 0 & (std::toupper(move.end[0] - 'A') < 8)) {
                 c3 = true;
+                int testc4 = std::toupper(move.end[0]) - 'A';
             }
 
-            if (c1 & c2 & c3) {
+
+            //check for number ranges
+            if ((std::toupper(move.start[1] - '1')) >= 0 & (std::toupper(move.start[1] - '1') < 8)) {
+                c4 = true;
+                
+            }
+            if ((std::toupper(move.end[1] - '1')) >= 0 & (std::toupper(move.end[1] - '1') < 8)) {
+                c5 = true;
+                cout << "c5: " << c5 << endl;
+            }
+
+
+            //debugging
+            cout << "c1: " << c1 << endl;
+            cout << "c2: " << c2 << endl;
+            int testc2 = std::toupper(move.start[0]) - 'A';
+            int testc3 = std::toupper(move.end[0] - 'A');
+            cout << "c3: " << c3 << endl;
+            cout << "c4: " << c4 << endl;
+            cout << "c5: " << c5 << endl;
+
+            if (c1 & c2 & c3 & c4 & c5) { //if all true
                 return true;
             } else {
                 return false;
@@ -198,6 +223,11 @@ class Board {
 
         }
 
+        void checkMove() {
+            //just print the moves that are current.
+            cout << "Start: " << lastMove.start << endl;
+            cout << "End: " << lastMove.end << endl;
+        }
 
         void promptMove() {
             //prompt user to move piece
@@ -210,12 +240,12 @@ class Board {
             cout << "Type ending move: ";
             cin >> end;
 
-            myMoves check;
+            myMoves checking;
             string tryAgain;
-            check.start = start;
-            check.end = end;
+            checking.start = start;
+            checking.end = end;
 
-            if (validateMove(check)) {
+            if (validateMove(checking)) {
                 lastMove.start = start;
                 lastMove.end = end;
             } else {
@@ -265,7 +295,8 @@ int main() {
         
         
         chessBoard.promptMove();
-        chessBoard.changeBoard();
+        chessBoard.checkMove();
+        // chessBoard.changeBoard();
 
         while (true) {
             cout << "Show board> (y/n) ";
