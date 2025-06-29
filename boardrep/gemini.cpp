@@ -181,21 +181,20 @@ class Board {
             }
 
             //character is within bounds
-            if ((std::toupper(move.start[0]) - 'A' >= 0) & (std::toupper(move.start[0] - 'A') < 8)) {
+            if ((std::toupper(move.start[0]) - 'A' >= 0) && (std::toupper(move.start[0]) - 'A' < 8)) {
                 c2 = true;
             }
 
-            if ((std::toupper(move.end[0] - 'A') >= 0) & (std::toupper(move.end[0] - 'A') < 8)) {
+            if ((std::toupper(move.end[0]) - 'A' >= 0) && (std::toupper(move.end[0]) - 'A' < 8)) {
                 c3 = true;
             }
 
-
             //check for number ranges
-            if ((std::toupper(move.start[1] - '1') >= 0) & (std::toupper(move.start[1] - '1') < 8)) {
+            if ((std::toupper(move.start[1] - '1') >= 0) && (std::toupper(move.start[1] - '1') < 8)) {
                 c4 = true;
                 
             }
-            if ((std::toupper(move.end[1] - '1') >= 0) & (std::toupper(move.end[1] - '1') < 8)) {
+            if ((std::toupper(move.end[1] - '1') >= 0) && (std::toupper(move.end[1] - '1') < 8)) {
                 c5 = true;
                 cout << "c5: " << c5 << endl;
             }
@@ -208,7 +207,7 @@ class Board {
             cout << "c4: " << c4 << endl;
             cout << "c5: " << c5 << endl;
 
-            int testc2 = std::toupper(move.start[0]) - 'A' >= 0;
+            int testc2 = std::toupper(move.start[0]) - 'A';
             cout << endl << "c2: " << testc2 << endl;
             int testc3 = std::toupper(move.end[0]) - 'A';
             cout << "c3: " << testc3 << endl;
