@@ -4,7 +4,11 @@
 using namespace std;
 
 int main() {
-    string S = "h8";
+    // string S = "e2";
+    string S;
+    cout << "Enter move: ";
+    cin >> S;
+    
     char s = std::toupper(S[0]);
     int r0 = s - 'A';
     int r = S[1] - '1';

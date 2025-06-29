@@ -53,10 +53,7 @@ char getPieceViz(Piece piece) {
 //Board class
 
 class Board {
-
-    private:
-        std::vector<std::vector<Piece>> board; //define board data structure
-        
+     
 
     public:
 
@@ -65,16 +62,17 @@ class Board {
         // std::vector<std::vector<Piece>> board;
 
         // typedef std::vector<std::vector<Piece>> BOARD;
+        std::vector<std::vector<Piece>> chessBoard; //define board, Global variable so member functions can modify it 
 
-        struct myMoves{
+        struct Move{
             std::string start;
             std::string end;
         };
 
-        myMoves lastMove;
+        Move lastMove;
 
         //board constructor. The stuff after the colon are initialized variables
-        Board() : board(8,std::vector<Piece>(8, Piece::EMPTY)) {
+        Board() : chessBoard(8,std::vector<Piece>(8, Piece::EMPTY)) {
             initializeBoard();
         }
 
@@ -84,35 +82,35 @@ class Board {
             //make all squares empty
             for (int r = 0; r < 8; r++) {
                 for (int c = 0; c < 8; c++) {
-                    board[r][c] = Piece::EMPTY; //initializes the all 8 elements in 8 arrays to all zeros 
+                    chessBoard[r][c] = Piece::EMPTY; //initializes the all 8 elements in 8 arrays to all zeros 
                 }
             }
 
-            
+            //put in pawns
             for (int c = 0; c < 8; c++) {
-                board[1][c] = Piece::W_PAWN; 
-                board[6][c] = Piece::B_PAWN; 
+                chessBoard[1][c] = Piece::W_PAWN; 
+                chessBoard[6][c] = Piece::B_PAWN; 
             }
 
 
             //now manually place pieces for black and white
-            board[0][0] = Piece::W_ROOK;
-            board[0][1] = Piece::W_KNIGHT;
-            board[0][2] = Piece::W_BISHOP;
-            board[0][3] = Piece::W_QUEEN;
-            board[0][4] = Piece::W_KING;
-            board[0][5] = Piece::W_BISHOP;
-            board[0][6] = Piece::W_KNIGHT;
-            board[0][7] = Piece::W_ROOK;
+            chessBoard[0][0] = Piece::W_ROOK;
+            chessBoard[0][1] = Piece::W_KNIGHT;
+            chessBoard[0][2] = Piece::W_BISHOP;
+            chessBoard[0][3] = Piece::W_QUEEN;
+            chessBoard[0][4] = Piece::W_KING;
+            chessBoard[0][5] = Piece::W_BISHOP;
+            chessBoard[0][6] = Piece::W_KNIGHT;
+            chessBoard[0][7] = Piece::W_ROOK;
 
-            board[7][0] = Piece::B_ROOK;
-            board[7][1] = Piece::B_KNIGHT;
-            board[7][2] = Piece::B_BISHOP;
-            board[7][3] = Piece::B_QUEEN;
-            board[7][4] = Piece::B_KING;
-            board[7][5] = Piece::B_BISHOP;
-            board[7][6] = Piece::B_KNIGHT;
-            board[7][7] = Piece::B_ROOK;
+            chessBoard[7][0] = Piece::B_ROOK;
+            chessBoard[7][1] = Piece::B_KNIGHT;
+            chessBoard[7][2] = Piece::B_BISHOP;
+            chessBoard[7][3] = Piece::B_QUEEN;
+            chessBoard[7][4] = Piece::B_KING;
+            chessBoard[7][5] = Piece::B_BISHOP;
+            chessBoard[7][6] = Piece::B_KNIGHT;
+            chessBoard[7][7] = Piece::B_ROOK;
 
 
 
@@ -124,13 +122,12 @@ class Board {
             cout << " -----------------" << endl;
             for (int r = 7; r >= 0; r--) { //top down
                 cout << r + 1 << "|"; //row labels
-                for (int c = 0; c < 8; c++) {
-                    cout << getPieceViz(board[r][c]) << " "; //this prints the associated piece letter based on its integer stored in the array
+                for (int c = 7; c >= 0; c--) {
+                    cout << getPieceViz(chessBoard[r][c]) << " "; //this prints the associated piece letter based on its integer stored in the array
                 }
                 cout << "|" << endl;
             }
             cout << " -----------------" << endl; //row labels
-            cout << "  A B C D E F G H" << endl; //column labels
         }
 
         // void newMove(std::vector<std::vector<Piece>> b) {
@@ -146,7 +143,7 @@ class Board {
         // }
 
         //just change the board
-        void changeBoard() {
+        void makeMove() {
 
             string start = lastMove.start;
             string end = lastMove.end;
@@ -159,8 +156,8 @@ class Board {
             int sCol = start[1] - '0';
             int eCol = end[1] - '0';
 
-            board[eRow][eCol] = board[sRow][sCol];
-            board[sRow][sCol] = Piece::EMPTY;
+            chessBoard[eRow][eCol] = chessBoard[sRow][sCol];
+            chessBoard[sRow][sCol] = Piece::EMPTY;
         }
 
         // void movePiece(int startRow, int startCol, int endRow, int endCol) {
@@ -170,7 +167,7 @@ class Board {
 
         // }
 
-        bool validateMove(myMoves move) { 
+        bool validateMove(Move move) { 
             
             bool c1 = false;
             bool c2 = false;
@@ -181,26 +178,24 @@ class Board {
             //check if move is 2 characters long
             if (move.start.length() ==2 & move.end.length() == 2) {
                 c1 = true;
-                
             }
 
             //character is within bounds
-            if ((std::toupper(move.start[0] - 'A')) >= 0 & (std::toupper(move.start[0] - 'A') < 8)) {
+            if ((std::toupper(move.start[0]) - 'A' >= 0) & (std::toupper(move.start[0] - 'A') < 8)) {
                 c2 = true;
             }
 
-            if ((std::toupper(move.end[0] - 'A')) >= 0 & (std::toupper(move.end[0] - 'A') < 8)) {
+            if ((std::toupper(move.end[0] - 'A') >= 0) & (std::toupper(move.end[0] - 'A') < 8)) {
                 c3 = true;
-                int testc4 = std::toupper(move.end[0]) - 'A';
             }
 
 
             //check for number ranges
-            if ((std::toupper(move.start[1] - '1')) >= 0 & (std::toupper(move.start[1] - '1') < 8)) {
+            if ((std::toupper(move.start[1] - '1') >= 0) & (std::toupper(move.start[1] - '1') < 8)) {
                 c4 = true;
                 
             }
-            if ((std::toupper(move.end[1] - '1')) >= 0 & (std::toupper(move.end[1] - '1') < 8)) {
+            if ((std::toupper(move.end[1] - '1') >= 0) & (std::toupper(move.end[1] - '1') < 8)) {
                 c5 = true;
                 cout << "c5: " << c5 << endl;
             }
@@ -209,11 +204,14 @@ class Board {
             //debugging
             cout << "c1: " << c1 << endl;
             cout << "c2: " << c2 << endl;
-            int testc2 = std::toupper(move.start[0]) - 'A';
-            int testc3 = std::toupper(move.end[0] - 'A');
             cout << "c3: " << c3 << endl;
             cout << "c4: " << c4 << endl;
             cout << "c5: " << c5 << endl;
+
+            int testc2 = std::toupper(move.start[0]) - 'A' >= 0;
+            cout << endl << "c2: " << testc2 << endl;
+            int testc3 = std::toupper(move.end[0]) - 'A';
+            cout << "c3: " << testc3 << endl;
 
             if (c1 & c2 & c3 & c4 & c5) { //if all true
                 return true;
@@ -223,47 +221,42 @@ class Board {
 
         }
 
-        void checkMove() {
+        void showMove() {
             //just print the moves that are current.
-            cout << "Start: " << lastMove.start << endl;
-            cout << "End: " << lastMove.end << endl;
+            // cout << "Start: " << lastMove.start << endl;
+            // cout << "End: " << lastMove.end << endl;
+            cout << "Your move is " << lastMove.start << " to " << lastMove.end << "." << endl;
         }
 
         void promptMove() {
             //prompt user to move piece
-            string start;
-            string end;
+            Move checking;
+            string tryAgain;
 
             //check string length
             cout << "Type starting move: ";
-            cin >> start;
+            cin >> checking.start;
             cout << "Type ending move: ";
-            cin >> end;
+            cin >> checking.end;
 
-            myMoves checking;
-            string tryAgain;
-            checking.start = start;
-            checking.end = end;
+            
 
             if (validateMove(checking)) {
-                lastMove.start = start;
-                lastMove.end = end;
+                lastMove = checking;
+                cout << "Move saved" << endl;
+                // return lastMove;
             } else {
                 cout << "Invalid moves.. try again? (y/n) ";
                 cin >> tryAgain;
                 if (tryAgain == "y") {
                     promptMove();
                 }
+                
             }
             
         }
 
-        void inputMove(string start, string end) {
-            lastMove.start = start;
-            lastMove.end = end;
-        }
-
-        myMoves getMoves() const {
+        Move getMoves() const {
             return lastMove;
         }
 
@@ -295,28 +288,34 @@ int main() {
         
         
         chessBoard.promptMove();
-        chessBoard.checkMove();
-        // chessBoard.changeBoard();
+        chessBoard.showMove();
 
-        while (true) {
-            cout << "Show board> (y/n) ";
-            cin >> ans;
-            if (ans == "y") {
-                chessBoard.printBoard();
-                break;
-            } else if (ans == "n") {
-                break;
-            } else {
-                cout << "Invalid input, try again.." << endl;
-            }
-        }
+        // string choice_to_move;
+        // cout << "Make this move? (y/n) ";
+        // cin >> choice_to_move;
+        // if (choice_to_move == "y") {
+        //     chessBoard.makeMove();
+        // }
+
+        // while (true) {
+        //     cout << "Show board> (y/n) ";
+        //     cin >> ans;
+        //     if (ans == "y") {
+        //         chessBoard.printBoard();
+        //         break;
+        //     } else if (ans == "n") {
+        //         break;
+        //     } else {
+        //         cout << "Invalid input, try again.." << endl;
+        //     }
+        // }
 
         
-        cout << "Are you making another move? (y/n) ";
-        cin >> ans2;
-        if (ans2 == "n"){
-            break;
-        }
+        // cout << "Are you making another move? (y/n) ";
+        // cin >> ans2;
+        // if (ans2 == "n"){
+        //     break;
+        // }
 
         
     }
