@@ -207,10 +207,10 @@ class Board {
             cout << "c4: " << c4 << endl;
             cout << "c5: " << c5 << endl;
 
-            int testc2 = std::toupper(move.start[0]) - 'A';
-            cout << endl << "c2: " << testc2 << endl;
-            int testc3 = std::toupper(move.end[0]) - 'A';
-            cout << "c3: " << testc3 << endl;
+            // int testc2 = std::toupper(move.start[0]) - 'A';
+            // cout << endl << "c2: " << testc2 << endl;
+            // int testc3 = std::toupper(move.end[0]) - 'A';
+            // cout << "c3: " << testc3 << endl;
 
             if (c1 & c2 & c3 & c4 & c5) { //if all true
                 return true;
