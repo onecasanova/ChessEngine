@@ -53,7 +53,6 @@ char getPieceViz(Piece piece) {
 //Board class
 
 class Board {
-     
 
     public:
 
