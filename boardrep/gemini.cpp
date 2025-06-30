@@ -73,9 +73,23 @@ class Board {
 
         //board constructor. The stuff after the colon are initialized variables
         Board() : chessBoard(8,std::vector<Piece>(8, Piece::EMPTY)) {
+            // printBoard();
+
             initializeBoard();
+            // printBoard();
+            // initializeBoard2();
         }
 
+
+        void initializeBoard2() {
+            //add a random pawns in the middle for debugging
+
+            chessBoard[3][3] = chessBoard[0][0];
+            chessBoard[0][0] = Piece::EMPTY;
+            chessBoard[3][4] = Piece::B_PAWN;
+
+
+        }
         //initialize the board to starting positions
         void initializeBoard() {
 
@@ -122,7 +136,7 @@ class Board {
             cout << " -----------------" << endl;
             for (int r = 7; r >= 0; r--) { //top down
                 cout << r + 1 << "|"; //row labels
-                for (int c = 7; c >= 0; c--) {
+                for (int c = 0; c < 8; c++) {
                     cout << getPieceViz(chessBoard[r][c]) << " "; //this prints the associated piece letter based on its integer stored in the array
                 }
                 cout << "|" << endl;
@@ -151,11 +165,18 @@ class Board {
             char start_letter = std::toupper(start[0]);
             char end_letter = std::toupper(end[0]);
 
-            int sRow = start_letter - 'A';
-            int eRow = end_letter - 'A';
-            int sCol = start[1] - '0';
-            int eCol = end[1] - '0';
+            int sCol = start_letter - 'A';
+            int eCol = end_letter - 'A';
+            int sRow = start[1] - '1';
+            int eRow = end[1] - '1';
 
+            char s = getPieceViz(chessBoard[sRow][sCol]);
+            char e = getPieceViz(chessBoard[eRow][eCol]);
+            // cout << lastMove.start << " is (" << sRow << ", " << sCol << ")" << endl;
+            // cout << lastMove.end << " is (" << eRow << ", " << eCol << ")" << endl;
+
+            // cout << s << " is start" << endl;
+            // cout << e << " is end" << endl;
             chessBoard[eRow][eCol] = chessBoard[sRow][sCol];
             chessBoard[sRow][sCol] = Piece::EMPTY;
         }
@@ -196,7 +217,6 @@ class Board {
             }
             if ((std::toupper(move.end[1] - '1') >= 0) && (std::toupper(move.end[1] - '1') < 8)) {
                 c5 = true;
-                cout << "c5: " << c5 << endl;
             }
 
 
@@ -289,15 +309,17 @@ int main() {
         chessBoard.promptMove();
         chessBoard.showMove();
 
-        // string choice_to_move;
-        // cout << "Make this move? (y/n) ";
-        // cin >> choice_to_move;
-        // if (choice_to_move == "y") {
-        //     chessBoard.makeMove();
-        // }
+        string choice_to_move;
+        cout << "Make this move? (y/n) ";
+        cin >> choice_to_move;
+        if (choice_to_move == "y") {
+            chessBoard.makeMove();
+        }
 
+        chessBoard.printBoard();
+        //prompt for asking to show board
         // while (true) {
-        //     cout << "Show board> (y/n) ";
+        //     cout << "Show board? (y/n) ";
         //     cin >> ans;
         //     if (ans == "y") {
         //         chessBoard.printBoard();
@@ -310,11 +332,11 @@ int main() {
         // }
 
         
-        // cout << "Are you making another move? (y/n) ";
-        // cin >> ans2;
-        // if (ans2 == "n"){
-        //     break;
-        // }
+        cout << "Are you making another move? (y/n) ";
+        cin >> ans2;
+        if (ans2 == "n"){
+            break;
+        }
 
         
     }
