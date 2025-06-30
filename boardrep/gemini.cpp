@@ -201,11 +201,11 @@ class Board {
 
 
             //debugging
-            cout << "c1: " << c1 << endl;
-            cout << "c2: " << c2 << endl;
-            cout << "c3: " << c3 << endl;
-            cout << "c4: " << c4 << endl;
-            cout << "c5: " << c5 << endl;
+            // cout << "c1: " << c1 << endl;
+            // cout << "c2: " << c2 << endl;
+            // cout << "c3: " << c3 << endl;
+            // cout << "c4: " << c4 << endl;
+            // cout << "c5: " << c5 << endl;
 
             // int testc2 = std::toupper(move.start[0]) - 'A';
             // cout << endl << "c2: " << testc2 << endl;
