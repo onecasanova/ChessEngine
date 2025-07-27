@@ -251,12 +251,14 @@ class Board {
             Move checking;
             string tryAgain;
 
-            //check string length
-            cout << "Type starting move: ";
-            cin >> checking.start;
-            cout << "Type ending move: ";
-            cin >> checking.end;
+            string move;
+            //update**
+            //just have player enter move like "{start}{end}"
+            cout << "Type move: ";
+            cin >> move;
 
+            checking.start = move.substr(0,2);
+            checking.end = move.substr(2,3);
             
 
             if (validateMove(checking)) {
@@ -308,15 +310,17 @@ int main() {
         chessBoard.promptMove();
         chessBoard.showMove();
 
-        // asking player to make move
-        string choice_to_move;
-        cout << "Make this move? (y/n) ";
-        cin >> choice_to_move;
-        if (choice_to_move == "y") {
-            chessBoard.makeMove();
-        }
+        // ask player to make move
+        // string choice_to_move;
+        // cout << "Make this move? (y/n) ";
+        // cin >> choice_to_move;
+        // if (choice_to_move == "y") {
+        //     chessBoard.makeMove();
+        // }
 
-        chessBoard.printBoard();
+        chessBoard.makeMove(); //update the board
+        chessBoard.printBoard(); //print the board
+
         //prompt for asking to show board
         // while (true) {
         //     cout << "Show board? (y/n) ";
